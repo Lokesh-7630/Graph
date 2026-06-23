@@ -1,0 +1,60 @@
+#include<iostream>
+#include<queue>
+#include<list>
+#include<vector>
+using namespace std;
+class Graph{
+int V;
+list<int>*l;
+public:
+Graph(int V){
+    this->V=V;
+    l=new list<int>[V];
+}
+void addEdge(int u,int v){
+   l[u].push_back(v);
+   l[v].push_back(u);
+}
+bool helper(int src, vector<bool>&vis,int par){
+//par determines is the node we are cheacking isnt the previous node from we just passed
+    vis[src]=true;
+    list<int>neighbour=l[src];
+    for(int v:neighbour){
+        if(!vis[v]){ 
+            if(helper(v,vis,src)){
+                return true;
+            }
+        }else{
+            if(v!=par){//to avoid the node check which is recently done
+                return true;
+            }
+        }
+    }
+    return false;
+}
+void hasCycle(){
+    vector<bool>vis(V,false);
+    
+    if(helper(0,vis,-1)){
+        cout<<"cycle Exist"<<endl;
+    }else{
+        cout<<"cycle does not exist"<<endl;
+    }
+}
+
+};
+int main(){
+Graph graph(8);
+ graph.addEdge(0,1);
+ graph.addEdge(0,2);
+ graph.addEdge(1,3);
+ graph.addEdge(2,4);
+ 
+ graph.addEdge(3,5);
+
+ graph.addEdge(5,6);
+
+graph.hasCycle();
+
+    return 0;
+}
