@@ -1,0 +1,43 @@
+class Solution {
+  public:
+    vector<vector<int>> updateMatrix(vector<vector<int>>& grid) {
+        // code here
+        int n=grid.size();
+        int m=grid[0].size();
+        vector<vector<bool>>vis(n,vector<bool>(m,false));
+        vector<vector<int>>dist(n,vector<int>(m,0));
+        queue<pair<pair<int,int>,int>>q;
+        for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++){
+                if(grid[i][j]==0){
+                    q.push({{i,j},0});
+                    vis[i][j]=true;
+                }
+            }
+        }
+        int delRow[]={-1,1,0,0};
+        int delCol[]={0,0,-1,1};
+        //bfs
+        while(!q.empty()){
+            int i=q.front().first.first;
+            int j=q.front().first.second;
+            int steps=q.front().second;
+            q.pop();
+            dist[i][j]=steps;
+          
+          for(int d = 0; d < 4; d++) {
+    int nrow = i + delRow[d]; // Neighbor row
+    int ncol = j + delCol[d]; // Neighbor column
+    
+    // Now you only have to write your boundary and validity checks ONCE!
+    if(nrow >= 0 && nrow < n && ncol >= 0 && ncol < m && !vis[nrow][ncol]) {
+       q.push({{nrow,ncol},steps+1});
+       vis[nrow][ncol]=true;
+    }
+}
+            
+            
+        }
+        return dist;
+    }
+};
