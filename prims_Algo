@@ -1,0 +1,26 @@
+Prim’s Algorithm is a classic greedy algorithm used to find the Minimum Spanning Tree (MST) of a connected, weighted, and undirected graph.
+
+In simple terms, it starts from a single vertex and progressively grows the spanning tree by choosing the cheapest possible edge that connects
+a vertex inside the tree to a vertex outside the tree, ensuring no cycles are formed.
+Step 3: Explaining the Core Algorithm (primsAlgo) Line-by-LineThis is where the interviewer will pay the closest attention. Break the 
+primsAlgo(int src) function into three structural
+        phases:1. Tracking and Initialization"Inside the primsAlgo function, I initialize three 
+critical components:A boolean vector MST of size $V$, initialized to false. This acts as our visited array, ensuring we don't pick an edge
+that leads back to a vertex already included in our growing spanning tree (preventing cycles).A custom tracking integer ans, which keeps a
+running total of the MST's minimum weight.A priority_queue structured as a min-heap. It stores pairs in the format pair<weight, vertex>.
+Because C++ pairs compare by their first element by default, storing the weight first ensures that the heap always pops the absolute cheapest edge available.
+
+"2. Starting the Loop"We kick off the process by pushing a dummy pair (0, src) into the priority queue, treating our source node as if it costs nothing to reach.
+The main loop runs as long as the priority queue isn't empty."3. The Processing & Relaxation Phase"In every iteration of the loop:We extract the 
+top element from the min-heap, which gives us the current lowest-weight vertex (u) and its incoming edge weight (wt).We instantly check if !MST[u].
+This step is crucial because the priority queue might contain multiple old, heavier paths to u. If MST[u] is already true, we skip it.
+If it hasn't been included yet, we officially mark MST[u] = true and add its edge weight to our running ans.Finally, we iterate through all of u's
+immediate neighbors. For every adjacent vertex v with a connection weight currWt, we blindly push make_pair(currWt, v) into our min-heap.
+The min-heap will naturally sort and bubble the absolute best paths to the top for subsequent iterations.
+
+"Step 4: Stating Time and Space ComplexityAlways conclude your code explanation with complexity analysis before they even have to ask.
+It shows proactive engineering thinking.Time Complexity: > "The time complexity of this specific implementation is $O(E \log E)$ where $E$ is the number of edges.
+This is because every edge can potentially be pushed into the priority queue, and heap operations take logarithmic time.
+(Note: If we optimized it further by decreasing keys in a Min-Heap, we could achieve $O(E \log V)$).
+"Space Complexity: > "The space complexity is $O(V + E)$ due to the storage required for the adjacency list representation, the MST tracking vector,
+and the priority queue elements."
